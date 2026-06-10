@@ -170,6 +170,7 @@ main { position: relative; z-index: 1; }
   border-radius: 6px;
   transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
 }
+.btn__icon { display: flex; align-items: center; justify-content: center; }
 .btn--solid {
   background: var(--volt);
   color: var(--volt-ink);
@@ -1105,6 +1106,7 @@ main { position: relative; z-index: 1; }
   display: flex; align-items: center; gap: 16px;
 }
 .footer__socials a {
+  display: flex; align-items: center; gap: 6px;
   font-family: var(--font-mono);
   font-size: 10.5px; letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1166,6 +1168,29 @@ main { position: relative; z-index: 1; }
   transition: border-color 0.25s ease, color 0.25s ease;
 }
 .lightbox__close:hover { border-color: var(--volt); color: var(--volt); }
+.lightbox__nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(20, 20, 31, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.lightbox__nav:hover {
+  background: rgba(20, 20, 31, 0.95);
+  border-color: var(--volt);
+  color: var(--volt);
+  transform: translateY(-50%) scale(1.05);
+}
+.lightbox__nav--prev { left: clamp(10px, 3vw, 40px); }
+.lightbox__nav--next { right: clamp(10px, 3vw, 40px); }
+@media (max-width: 768px) {
+  .lightbox__nav { width: 40px; height: 40px; }
+  .lightbox__nav svg { width: 24px; height: 24px; }
+}
 .lightbox__fig { margin: 0; max-width: min(1100px, 94vw); cursor: default; }
 .lightbox__fig img {
   max-width: 100%; max-height: 78vh;

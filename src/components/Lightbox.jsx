@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { useScrollLock } from '../hooks/useLenis.jsx'
 
-export default function Lightbox({ open, src, alt, caption, onClose }) {
+export default function Lightbox({ open, src, alt, caption, onClose, onNext, onPrev }) {
   const { stop, start } = useScrollLock()
 
   useEffect(() => {
@@ -14,12 +15,15 @@ export default function Lightbox({ open, src, alt, caption, onClose }) {
 
   useEffect(() => {
     if (!open) return undefined
-    const onKey = (e) => e.key === 'Escape' && onClose()
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowRight' && onNext) onNext()
+      if (e.key === 'ArrowLeft' && onPrev) onPrev()
+    }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
-  }, [open, onClose])
+  }, [open, onClose, onNext, onPrev])
 
-  // Portal to <body> so the modal stacks above the fixed nav (main has its own stacking context)
   return createPortal(
     <AnimatePresence>
       {open && (
@@ -27,16 +31,23 @@ export default function Lightbox({ open, src, alt, caption, onClose }) {
           className="lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label="Certificate viewer"
+          aria-label="Image viewer"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
           onClick={onClose}
         >
-          <button className="lightbox__close" aria-label="Close certificate viewer" onClick={onClose} autoFocus>
-            ✕
+          <button className="lightbox__close" aria-label="Close" onClick={onClose}>
+            <X size={24} />
           </button>
+
+          {onPrev && (
+            <button className="lightbox__nav lightbox__nav--prev" aria-label="Previous image" onClick={(e) => { e.stopPropagation(); onPrev(); }}>
+              <ChevronLeft size={32} />
+            </button>
+          )}
+
           <motion.figure
             className="lightbox__fig"
             initial={{ scale: 0.94, y: 14 }}
@@ -48,6 +59,12 @@ export default function Lightbox({ open, src, alt, caption, onClose }) {
             <img src={src} alt={alt} />
             <figcaption>{caption}</figcaption>
           </motion.figure>
+
+          {onNext && (
+            <button className="lightbox__nav lightbox__nav--next" aria-label="Next image" onClick={(e) => { e.stopPropagation(); onNext(); }}>
+              <ChevronRight size={32} />
+            </button>
+          )}
         </motion.div>
       )}
     </AnimatePresence>,

@@ -18,7 +18,7 @@ function ParallaxFigure({ item, index, onClick }) {
   return (
     <motion.figure ref={ref} className={`g g--${index}`} style={active ? { y } : undefined}>
       <Reveal>
-        <div className="frame" onClick={() => onClick(item)} style={{ cursor: 'zoom-in' }}>
+        <div className="frame" onClick={() => onClick(index)} style={{ cursor: 'zoom-in' }}>
           <img src={item.img} alt={item.cap} width={item.w} height={item.h} loading="lazy" />
         </div>
         <figcaption className="cap">{item.cap}</figcaption>
@@ -28,7 +28,13 @@ function ParallaxFigure({ item, index, onClick }) {
 }
 
 export default function Gallery() {
-  const [lightbox, setLightbox] = useState(null)
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+  
+  const isOpen = lightboxIndex !== null
+  const currentItem = isOpen ? GALLERY[lightboxIndex] : null
+
+  const handleNext = () => setLightboxIndex((i) => (i < GALLERY.length - 1 ? i + 1 : 0))
+  const handlePrev = () => setLightboxIndex((i) => (i > 0 ? i - 1 : GALLERY.length - 1))
 
   return (
     <section className="gallery section" aria-label="Physique gallery">
@@ -39,17 +45,19 @@ export default function Gallery() {
         </header>
         <div className="gallery__grid">
           {GALLERY.map((item, i) => (
-            <ParallaxFigure key={item.img} item={item} index={i} onClick={setLightbox} />
+            <ParallaxFigure key={item.img} item={item} index={i} onClick={setLightboxIndex} />
           ))}
         </div>
       </div>
 
       <Lightbox
-        open={!!lightbox}
-        src={lightbox?.img}
-        alt={lightbox?.cap || ''}
-        caption={lightbox?.cap || ''}
-        onClose={() => setLightbox(null)}
+        open={isOpen}
+        src={currentItem?.img}
+        alt={currentItem?.cap || ''}
+        caption={currentItem?.cap || ''}
+        onClose={() => setLightboxIndex(null)}
+        onNext={GALLERY.length > 1 ? handleNext : undefined}
+        onPrev={GALLERY.length > 1 ? handlePrev : undefined}
       />
     </section>
   )
