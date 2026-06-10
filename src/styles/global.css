@@ -1170,6 +1170,7 @@ main { position: relative; z-index: 1; }
 .lightbox__close:hover { border-color: var(--volt); color: var(--volt); }
 .lightbox__nav {
   position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 10;
   width: 56px; height: 56px;
   display: flex; align-items: center; justify-content: center;
   background: rgba(20, 20, 31, 0.6);
