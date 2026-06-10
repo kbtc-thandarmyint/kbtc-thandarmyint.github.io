@@ -7,14 +7,15 @@ export default function About() {
         <Reveal as="figure" className="about__media">
           <div className="frame">
             <img
-              src="./assets/about-portrait.jpg"
-              alt="Casual night portrait of Hein Zaw holding his white Pomeranian"
+              src="./assets/smart-casual-lobby.jpg"
+              alt="Portrait of Hein Zaw in a smart casual setting"
               width="1536"
               height="2048"
               loading="lazy"
+              style={{ objectPosition: 'center 20%' }}
             />
           </div>
-          <figcaption className="cap">Off duty — with the assistant coach</figcaption>
+          <figcaption className="cap">Off duty — downtime</figcaption>
         </Reveal>
         <div className="about__body">
           <Reveal as="p" className="kicker">01 — The Coach</Reveal>
@@ -27,8 +28,7 @@ export default function About() {
           </Reveal>
           <Reveal as="p" className="lead" delay={0.18}>
             Whether you're cutting, building, or trying to move without pain again — the process
-            is structured and the standard doesn't drop. Outside the gym I'm easygoing. Ask my
-            Pomeranian.
+            is structured and the standard doesn't drop. Outside the gym, I'm easygoing.
           </Reveal>
           <Reveal as="dl" className="facts" delay={0.24}>
             <div><dt>Base</dt><dd>Yangon, MM</dd></div>

@@ -4,10 +4,16 @@ import Reveal from './Reveal.jsx'
 import Lightbox from './Lightbox.jsx'
 
 export default function Credentials() {
-  const [lightbox, setLightbox] = useState(null)
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+
+  const isOpen = lightboxIndex !== null
+  const currentItem = isOpen ? CERTS[lightboxIndex] : null
 
   const caption = (c) =>
     `${c.name} — ${c.issuer} · ${c.date}${c.id ? ` · ${c.id}` : ''}`
+
+  const handleNext = () => setLightboxIndex((i) => (i < CERTS.length - 1 ? i + 1 : 0))
+  const handlePrev = () => setLightboxIndex((i) => (i > 0 ? i - 1 : CERTS.length - 1))
 
   return (
     <section className="creds section" id="credentials">
@@ -27,7 +33,7 @@ export default function Credentials() {
               className="cred"
               key={c.no}
               delay={(i % 3) * 0.07}
-              onClick={() => setLightbox(c)}
+              onClick={() => setLightboxIndex(i)}
             >
               <div className="cred__img">
                 <img src={c.img} alt={`${c.name} certificate`} width="620" height="440" loading="lazy" decoding="async" />
@@ -43,7 +49,7 @@ export default function Credentials() {
               <button
                 className="cred__view"
                 aria-label={`View ${c.name} certificate`}
-                onClick={(e) => { e.stopPropagation(); setLightbox(c) }}
+                onClick={(e) => { e.stopPropagation(); setLightboxIndex(i) }}
               >
                 View certificate ↗
               </button>
@@ -53,11 +59,13 @@ export default function Credentials() {
       </div>
 
       <Lightbox
-        open={!!lightbox}
-        src={lightbox?.img}
-        alt={lightbox ? `${lightbox.name} certificate` : ''}
-        caption={lightbox ? caption(lightbox) : ''}
-        onClose={() => setLightbox(null)}
+        open={isOpen}
+        src={currentItem?.img}
+        alt={currentItem ? `${currentItem.name} certificate` : ''}
+        caption={currentItem ? caption(currentItem) : ''}
+        onClose={() => setLightboxIndex(null)}
+        onNext={CERTS.length > 1 ? handleNext : undefined}
+        onPrev={CERTS.length > 1 ? handlePrev : undefined}
       />
     </section>
   )
