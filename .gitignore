@@ -1,0 +1,16 @@
+# Build output + deps
+node_modules/
+dist/
+
+# Reference design + raw uploads — not part of the deployed site
+Claude-Design Hein Zaw Fitness/
+
+# Loose source images at root (curated copies live in public/assets/)
+/*.png
+/*.jpg
+
+# Local tooling
+.claude/
+
+# OS
+.DS_Store
