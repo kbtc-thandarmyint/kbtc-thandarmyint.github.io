@@ -39,8 +39,8 @@ export default function Ticker() {
   useAnimationFrame((t, delta) => {
     if (reduced) return
 
-    // Base speed — always moves at this minimum speed
-    const baseSpeed = 32 // pixels per second
+    // Base speed — always moves at this minimum speed (percentage per second)
+    const baseSpeed = 1.5 
     let moveBy = -baseSpeed * (delta / 1000)
 
     // Scroll velocity adds extra speed and can flip direction
@@ -49,7 +49,7 @@ export default function Ticker() {
     else if (vf > 0) dirRef.current = -1
 
     // Add velocity boost on top of base speed
-    moveBy += dirRef.current * Math.abs(vf) * 12 * (delta / 1000)
+    moveBy += dirRef.current * Math.abs(vf) * 0.8 * (delta / 1000)
 
     baseX.set(baseX.get() + moveBy)
   })
